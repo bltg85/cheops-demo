@@ -188,17 +188,17 @@ const norm = s => s.toString().trim().toLowerCase().replace(/\s+/g, '');
 const LEVELS = [
   {
     id: 1, title: 'Sandens kammare', subtitle: 'Enkla plustal · ental',
-    kind: 'numeric', count: 10,
+    kind: 'numeric', count: 10, maxErrors: 2,
     generate: () => { const a = rand(1,9), b = rand(1,9); return { q: `${a} + ${b}`, a: a+b }; }
   },
   {
     id: 2, title: 'Skuggornas gång', subtitle: 'Enkla minustal · ental',
-    kind: 'numeric', count: 10,
+    kind: 'numeric', count: 10, maxErrors: 2,
     generate: () => { const a = rand(2,9), b = rand(1,a); return { q: `${a} − ${b}`, a: a-b }; }
   },
   {
     id: 3, title: 'Stenhuggarens sal', subtitle: 'Tvåsiffrig addition',
-    kind: 'numeric', count: 10,
+    kind: 'numeric', count: 10, maxErrors: 2,
     generate: () => {
       let a, b;
       do { a = rand(10, 79); b = rand(10, 79); } while (a + b > 99);
@@ -207,27 +207,27 @@ const LEVELS = [
   },
   {
     id: 4, title: 'Solens kapell', subtitle: 'Blixt-addition · 2 minuter',
-    kind: 'numeric', count: 10, timer: 120,
+    kind: 'numeric', count: 10, maxErrors: 2, timer: 120,
     generate: () => { const a = rand(1,9), b = rand(1,9); return { q: `${a} + ${b}`, a: a+b }; }
   },
   {
-    id: 5, title: 'Cirkelns gåta', subtitle: 'Kammarens gåta · geometri',
-    kind: 'puzzle', count: 1,
+    id: 5, title: 'Triangelns gåta', subtitle: 'Kammarens gåta · geometri',
+    kind: 'puzzle', count: 1, maxErrors: 1,
     puzzle: {
-      q: 'Hur många grader går det runt en hel cirkel?',
-      a: [360],
-      graphic: 'circle',
-      hint: 'Fyra räta vinklar tillsammans.'
+      q: 'Hur många grader är det totalt i en triangel?',
+      a: [180],
+      graphic: 'triangle',
+      hint: 'Alla tre vinklar inuti — tillsammans.'
     }
   },
   {
     id: 6, title: 'Multipliklarens torn', subtitle: 'Entalsmultiplikation',
-    kind: 'numeric', count: 20,
+    kind: 'numeric', count: 20, maxErrors: 4,
     generate: () => { const a = rand(2,9), b = rand(2,9); return { q: `${a} × ${b}`, a: a*b }; }
   },
   {
     id: 7, title: 'Mörka galleriet', subtitle: 'Tvåsiffrig subtraktion',
-    kind: 'numeric', count: 20,
+    kind: 'numeric', count: 20, maxErrors: 4,
     generate: () => {
       const a = rand(25, 99);
       const b = rand(10, a - 1);
@@ -236,7 +236,7 @@ const LEVELS = [
   },
   {
     id: 8, title: 'De tre bärarna', subtitle: 'Addition av tre tal',
-    kind: 'numeric', count: 20,
+    kind: 'numeric', count: 20, maxErrors: 4,
     generate: () => {
       const a = rand(1, 25), b = rand(1, 25), c = rand(1, 25);
       return { q: `${a} + ${b} + ${c}`, a: a+b+c };
@@ -244,7 +244,7 @@ const LEVELS = [
   },
   {
     id: 9, title: 'Falkens flygning', subtitle: 'Blixt-subtraktion · 3 minuter',
-    kind: 'numeric', count: 20, timer: 180,
+    kind: 'numeric', count: 20, maxErrors: 4, timer: 180,
     generate: () => {
       const a = rand(25, 99);
       const b = rand(10, a - 1);
@@ -253,7 +253,7 @@ const LEVELS = [
   },
   {
     id: 10, title: 'Toppstenen', subtitle: 'Toppens gåta · geometri',
-    kind: 'puzzle', count: 1,
+    kind: 'puzzle', count: 1, maxErrors: 1,
     puzzle: {
       q: 'Vad heter den här fyrhörningen?',
       a: ['parallelltrapets', 'paralleltrapets'],
@@ -321,20 +321,21 @@ function updatePyramid() {
 /* Puzzle graphics                                                    */
 /* ------------------------------------------------------------------ */
 function renderGraphic(kind) {
-  if (kind === 'circle') {
+  if (kind === 'triangle') {
     return `
-      <svg width="180" height="180" viewBox="0 0 180 180" class="max-w-full">
+      <svg width="210" height="170" viewBox="0 0 210 170" class="max-w-full">
         <defs>
-          <pattern id="stripe" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <pattern id="stripe-tri" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
             <rect width="3" height="6" fill="#e8dbc1"/>
           </pattern>
         </defs>
-        <circle cx="90" cy="90" r="72" fill="url(#stripe)" stroke="#2a1f0e" stroke-width="2"/>
-        <line x1="90" y1="18" x2="90" y2="162" stroke="#8b6a34" stroke-width="1" stroke-dasharray="3,4"/>
-        <line x1="18" y1="90" x2="162" y2="90" stroke="#8b6a34" stroke-width="1" stroke-dasharray="3,4"/>
-        <path d="M 102 90 L 102 78 L 90 78" fill="none" stroke="#6d5128" stroke-width="1.8"/>
-        <text x="105" y="84" font-family="Outfit" font-size="11" font-weight="600" fill="#4b3718">90°</text>
-        <circle cx="90" cy="90" r="3" fill="#2a1f0e"/>
+        <polygon points="105,22 188,146 22,146" fill="url(#stripe-tri)" stroke="#2a1f0e" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M 96 42 A 16 16 0 0 0 114 42" fill="none" stroke="#6d5128" stroke-width="1.6"/>
+        <path d="M 38 146 A 16 16 0 0 0 46 133" fill="none" stroke="#6d5128" stroke-width="1.6"/>
+        <path d="M 164 133 A 16 16 0 0 0 172 146" fill="none" stroke="#6d5128" stroke-width="1.6"/>
+        <text x="105" y="58" text-anchor="middle" font-family="Outfit" font-size="11" font-weight="700" fill="#4b3718">?</text>
+        <text x="44" y="136" text-anchor="middle" font-family="Outfit" font-size="11" font-weight="700" fill="#4b3718">?</text>
+        <text x="166" y="136" text-anchor="middle" font-family="Outfit" font-size="11" font-weight="700" fill="#4b3718">?</text>
       </svg>`;
   }
   if (kind === 'trapezoid') {
@@ -386,22 +387,31 @@ function createRoom(level) {
           </div>` : ''}
       </div>
 
-      <div class="progress-row flex flex-wrap gap-1.5 mb-8 float-in" style="--i:1">
+      <div class="rules-row flex flex-wrap items-center gap-2 mb-3 float-in" style="--i:1">
+        <div class="rule-pill text-xs font-medium text-sand-800 px-3 py-1.5 rounded-full bg-sand-100 border border-sand-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]">
+          Max <span class="tabular-nums font-semibold">${level.maxErrors}</span> fel · annars ner ett rum
+        </div>
+        <div class="error-pill text-xs font-medium text-sand-800 px-3 py-1.5 rounded-full bg-white/70 border border-sand-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]">
+          Fel hittills: <span class="error-count tabular-nums font-semibold">0</span> / ${level.maxErrors}
+        </div>
+      </div>
+
+      <div class="progress-row flex flex-wrap gap-1.5 mb-8 float-in" style="--i:2">
         ${level.kind === 'puzzle'
-          ? `<span class="text-[10px] uppercase tracking-[0.22em] text-sand-500 font-medium">Bossgåta</span>`
+          ? `<span class="text-[10px] uppercase tracking-[0.22em] text-sand-500 font-medium">Bossgåta · 1 fråga</span>`
           : Array.from({length: level.count}, () => `<span class="dot w-2 h-2 rounded-full bg-sand-200"></span>`).join('')}
       </div>
 
       ${level.kind === 'puzzle' ? `
-        <div class="puzzle-graphic mb-4 flex justify-center float-in" style="--i:2">${renderGraphic(level.puzzle.graphic)}</div>
-        <p class="puzzle-prompt text-center text-sand-700 text-base md:text-lg mb-6 max-w-[48ch] mx-auto float-in" style="--i:3">${level.puzzle.q}</p>
+        <div class="puzzle-graphic mb-4 flex justify-center float-in" style="--i:3">${renderGraphic(level.puzzle.graphic)}</div>
+        <p class="puzzle-prompt text-center text-sand-700 text-base md:text-lg mb-6 max-w-[48ch] mx-auto float-in" style="--i:4">${level.puzzle.q}</p>
       ` : ''}
 
-      <div class="question-area border-t border-b border-sand-300 py-10 md:py-14 mb-6 float-in" style="--i:${level.kind === 'puzzle' ? 4 : 2}">
+      <div class="question-area border-t border-b border-sand-300 py-10 md:py-14 mb-6 float-in" style="--i:${level.kind === 'puzzle' ? 5 : 3}">
         <div class="question-text text-center text-5xl md:text-7xl tracking-tighter font-semibold tabular-nums">—</div>
       </div>
 
-      <form class="answer-form flex flex-col sm:flex-row gap-3 items-stretch float-in" style="--i:${level.kind === 'puzzle' ? 5 : 3}">
+      <form class="answer-form flex flex-col sm:flex-row gap-3 items-stretch float-in" style="--i:${level.kind === 'puzzle' ? 6 : 4}">
         <input
           type="${isText ? 'text' : 'number'}"
           inputmode="${isText ? 'text' : 'numeric'}"
@@ -438,20 +448,33 @@ function createVictory() {
   v.id = 'victory';
   v.innerHTML = `
     <div class="chamber text-center">
-      <svg width="120" height="120" viewBox="0 0 120 120" class="mx-auto mb-6">
-        <polygon points="60,12 108,100 12,100" fill="#c19f5f" stroke="#4b3718" stroke-width="1.5"/>
-        <polygon points="60,12 108,100 60,100" fill="#8b6a34" stroke="#4b3718" stroke-width="1.5"/>
-        <circle cx="60" cy="18" r="4" fill="#c19f5f" stroke="#4b3718" stroke-width="1"/>
+      <svg width="130" height="130" viewBox="0 0 130 130" class="mx-auto mb-6 breathe">
+        <polygon points="65,14 117,108 13,108" fill="#c19f5f" stroke="#4b3718" stroke-width="1.5"/>
+        <polygon points="65,14 117,108 65,108" fill="#8b6a34" stroke="#4b3718" stroke-width="1.5"/>
+        <circle cx="65" cy="20" r="4" fill="#c19f5f" stroke="#4b3718" stroke-width="1"/>
       </svg>
+
       <div class="text-[10px] uppercase tracking-[0.22em] text-sand-500 font-medium">Toppen nådd</div>
-      <h2 class="mt-3 text-4xl md:text-6xl tracking-tighter font-semibold leading-[0.95]">
-        Pyramidens topp<br><span class="italic font-light text-sand-600">är din.</span>
+      <h2 class="mt-3 text-5xl md:text-7xl tracking-tighter font-semibold leading-[0.9]">
+        Grattis!<br><span class="italic font-light text-sand-600">du klarade Cheops.</span>
       </h2>
-      <p class="mt-5 text-sand-700 max-w-[44ch] mx-auto">
-        Tio kammare av sten och siffror — avklarade. Fler väntar i den fullständiga pyramiden.
+
+      <div class="mt-9 inline-flex items-baseline gap-3 px-6 py-4 rounded-2xl bg-white/70 border border-sand-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]">
+        <div class="text-left">
+          <div class="text-[10px] uppercase tracking-[0.22em] text-sand-500 font-medium">Din tid</div>
+          <div class="elapsed-display mt-0.5 text-4xl md:text-5xl font-semibold tabular-nums leading-none">0:00</div>
+        </div>
+      </div>
+
+      <p class="mt-8 text-sand-800 text-base md:text-lg max-w-[46ch] mx-auto">
+        Du klarade <span class="font-semibold">demo-versionen</span> av Cheops pyramid — tio kammare av sten och siffror.
       </p>
-      <button id="restart-btn" class="btn mt-8 inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-sand-400 text-sand-900 font-medium hover:bg-sand-100">
-        Spela igen
+      <p class="mt-3 text-sand-600 text-sm md:text-base max-w-[46ch] mx-auto">
+        Snart kommer samtliga <span class="font-semibold tabular-nums">100</span> banor. Skärpta sinnen, djupare kammare, hårdare gåtor.
+      </p>
+
+      <button id="restart-btn" class="btn mt-10 inline-flex items-center gap-2 px-7 py-4 rounded-full bg-sand-900 text-sand-50 font-medium hover:bg-sand-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
+        Spela demo igen
       </button>
     </div>
   `;
@@ -499,6 +522,11 @@ const state = {
   currentLevel: 0,
   currentQuestionIndex: 0,
   currentQuestions: [],
+  maxErrors: 0,
+  errors: 0,
+  results: [],
+  demoting: false,
+  startTime: null,
   timerInterval: null,
   timerEndsAt: null,
   timerTotal: 0
@@ -512,17 +540,21 @@ function generateQuestions(level) {
 function renderCurrentQuestion(section, level) {
   const q = state.currentQuestions[state.currentQuestionIndex];
   const qText = section.querySelector('.question-text');
-  qText.textContent = q.q;
+  qText.textContent = level.kind === 'puzzle' ? '?' : q.q;
   qText.classList.remove('pop');
   void qText.offsetWidth;
   qText.classList.add('pop');
 
   section.querySelectorAll('.dot').forEach((d, i) => {
-    d.classList.remove('bg-sand-200','bg-sand-500','bg-sand-800');
-    if (i < state.currentQuestionIndex) d.classList.add('bg-sand-800');
+    d.className = 'dot w-2 h-2 rounded-full';
+    if (state.results[i] === 'correct') d.classList.add('bg-sand-800');
+    else if (state.results[i] === 'wrong') d.classList.add('bg-red-600');
     else if (i === state.currentQuestionIndex) d.classList.add('bg-sand-500');
     else d.classList.add('bg-sand-200');
   });
+
+  const errCount = section.querySelector('.error-count');
+  if (errCount) errCount.textContent = state.errors;
 
   const input = section.querySelector('.answer-input');
   input.value = '';
@@ -535,10 +567,15 @@ function enterRoom(id) {
   state.currentLevel = id;
   state.currentQuestionIndex = 0;
   state.currentQuestions = generateQuestions(level);
+  state.maxErrors = level.maxErrors;
+  state.errors = 0;
+  state.results = new Array(level.count).fill(undefined);
+  state.demoting = false;
 
   const section = game.querySelector(`[data-level="${id}"]`);
   // lock all, unlock this one
   game.querySelectorAll('.room[data-level]').forEach(r => r.dataset.locked = 'true');
+  document.getElementById('victory').dataset.locked = 'true';
   section.dataset.locked = 'false';
 
   renderCurrentQuestion(section, level);
@@ -549,13 +586,17 @@ function enterRoom(id) {
   if (level.timer) startTimer(section, level.timer);
 
   section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  setTimeout(() => {
-    const input = section.querySelector('.answer-input');
-    if (input && window.matchMedia('(min-width: 821px)').matches) input.focus();
-  }, 700);
+  const input = section.querySelector('.answer-input');
+  if (input) {
+    // Focus så tangentbordet är klart direkt — kör flera gånger för att vinna över scroll
+    setTimeout(() => { try { input.focus({ preventScroll: true }); } catch (_) { input.focus(); } }, 120);
+    setTimeout(() => { try { input.focus({ preventScroll: true }); } catch (_) { input.focus(); } }, 650);
+    setTimeout(() => { try { input.focus({ preventScroll: true }); } catch (_) { input.focus(); } }, 1000);
+  }
 }
 
 function handleSubmit(section, level, rawValue) {
+  if (state.demoting) return;
   const q = state.currentQuestions[state.currentQuestionIndex];
   const accepted = Array.isArray(q.a) ? q.a : [q.a];
   const isText = level.kind === 'puzzle' && level.puzzle.answerType === 'text';
@@ -574,11 +615,12 @@ function handleSubmit(section, level, rawValue) {
 
   const feedback = section.querySelector('.feedback');
   const input = section.querySelector('.answer-input');
+  const qText = section.querySelector('.question-text');
 
   if (correct) {
+    state.results[state.currentQuestionIndex] = 'correct';
     feedback.textContent = 'Rätt!';
     feedback.className = 'feedback mt-3 text-sm font-medium min-h-[1.25rem] text-sand-800';
-    const qText = section.querySelector('.question-text');
     qText.classList.remove('pop');
     void qText.offsetWidth;
     qText.classList.add('pop');
@@ -589,15 +631,66 @@ function handleSubmit(section, level, rawValue) {
       setTimeout(() => renderCurrentQuestion(section, level), 350);
     }
   } else {
-    feedback.textContent = level.kind === 'puzzle' && level.puzzle.hint
-      ? `Nästan! Ledtråd: ${level.puzzle.hint}`
-      : 'Fel svar — försök igen.';
-    feedback.className = 'feedback mt-3 text-sm font-medium min-h-[1.25rem] text-red-800';
+    state.errors++;
+    const errCount = section.querySelector('.error-count');
+    if (errCount) {
+      errCount.textContent = state.errors;
+      const pill = section.querySelector('.error-pill');
+      if (pill) {
+        pill.classList.remove('pop');
+        void pill.offsetWidth;
+        pill.classList.add('pop');
+        if (state.errors >= state.maxErrors) {
+          pill.classList.remove('bg-white/70','border-sand-300','text-sand-800');
+          pill.classList.add('bg-red-50','border-red-300','text-red-800');
+        }
+      }
+    }
     input.classList.remove('shake');
     void input.offsetWidth;
     input.classList.add('shake');
-    input.select();
+
+    if (state.errors > state.maxErrors) {
+      const tooMany = state.currentLevel > 1
+        ? 'För många fel — du åker ner ett rum.'
+        : 'För många fel — rum 1 börjar om.';
+      feedback.textContent = tooMany;
+      feedback.className = 'feedback mt-3 text-sm font-medium min-h-[1.25rem] text-red-800';
+      demoteRoom();
+      return;
+    }
+
+    if (level.count === 1) {
+      // bossrum: stanna på samma fråga, försök igen
+      feedback.textContent = level.puzzle && level.puzzle.hint
+        ? `Fel — försök igen. Ledtråd: ${level.puzzle.hint}`
+        : 'Fel — försök igen.';
+      feedback.className = 'feedback mt-3 text-sm font-medium min-h-[1.25rem] text-red-800';
+      input.select();
+    } else {
+      // vanligt rum: markera som fel, avslöja rätt svar, gå vidare
+      state.results[state.currentQuestionIndex] = 'wrong';
+      const correctVal = accepted[0];
+      feedback.textContent = `Fel — rätt var ${correctVal}.`;
+      feedback.className = 'feedback mt-3 text-sm font-medium min-h-[1.25rem] text-red-800';
+      setTimeout(() => {
+        state.currentQuestionIndex++;
+        if (state.currentQuestionIndex >= state.currentQuestions.length) {
+          completeRoom(level);
+        } else {
+          renderCurrentQuestion(section, level);
+          try { input.focus({ preventScroll: true }); } catch (_) { input.focus(); }
+        }
+      }, 1300);
+    }
   }
+}
+
+function demoteRoom() {
+  state.demoting = true;
+  if (state.timerInterval) { clearInterval(state.timerInterval); state.timerInterval = null; }
+  const newLvl = Math.max(1, state.currentLevel - 1);
+  setTimeout(() => { enterRoom(newLvl); }, 1500);
 }
 
 function completeRoom(level) {
@@ -606,12 +699,23 @@ function completeRoom(level) {
   updatePyramid();
   if (level.id >= 10) {
     document.getElementById('room-label').textContent = 'Toppen nådd';
-    const v = document.getElementById('victory');
-    v.dataset.locked = 'false';
-    v.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    showVictory();
   } else {
     enterRoom(level.id + 1);
   }
+}
+
+function showVictory() {
+  const v = document.getElementById('victory');
+  v.dataset.locked = 'false';
+  const elapsedMs = state.startTime ? (Date.now() - state.startTime) : 0;
+  const totalSec = Math.max(0, Math.round(elapsedMs / 1000));
+  const m = Math.floor(totalSec / 60);
+  const s = totalSec % 60;
+  const timeText = `${m}:${String(s).padStart(2,'0')}`;
+  const timeEl = v.querySelector('.elapsed-display');
+  if (timeEl) timeEl.textContent = timeText;
+  v.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 /* ------------------------------------------------------------------ */
@@ -644,15 +748,11 @@ function startTimer(section, seconds) {
 
 function timeoutFailure(section) {
   const feedback = section.querySelector('.feedback');
-  feedback.textContent = 'Sanden rann ut. Kammaren börjar om.';
+  feedback.textContent = state.currentLevel > 1
+    ? 'Sanden rann ut — du åker ner ett rum.'
+    : 'Sanden rann ut — rum 1 börjar om.';
   feedback.className = 'feedback mt-3 text-sm font-medium min-h-[1.25rem] text-red-800';
-  const level = LEVELS[state.currentLevel - 1];
-  setTimeout(() => {
-    state.currentQuestions = generateQuestions(level);
-    state.currentQuestionIndex = 0;
-    renderCurrentQuestion(section, level);
-    startTimer(section, level.timer);
-  }, 1400);
+  demoteRoom();
 }
 
 /* ------------------------------------------------------------------ */
@@ -683,11 +783,13 @@ document.addEventListener('click', (e) => {
   }
 
   if (e.target.closest('#start-btn')) {
+    state.startTime = Date.now();
     enterRoom(1);
     return;
   }
   if (e.target.closest('#restart-btn')) {
     state.currentLevel = 0;
+    state.startTime = null;
     updatePyramid();
     document.getElementById('victory').dataset.locked = 'true';
     document.getElementById('intro').scrollIntoView({ behavior: 'smooth', block: 'start' });
