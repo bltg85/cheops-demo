@@ -91,11 +91,25 @@ const GRAPHICS = {
 
   fern: () => generateFern(),
 
+  triangleArea: () => `
+    <svg width="210" height="160" viewBox="0 0 210 160" class="max-w-full">
+      <defs>
+        <pattern id="stripe-area" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <rect width="3" height="6" fill="#e8dbc1"/>
+        </pattern>
+      </defs>
+      <polygon points="30,130 180,130 120,30" fill="url(#stripe-area)" stroke="#2a1f0e" stroke-width="2" stroke-linejoin="round"/>
+      <line x1="120" y1="30" x2="120" y2="130" stroke="#6d5128" stroke-width="1.4" stroke-dasharray="5,3"/>
+      <text x="105" y="148" text-anchor="middle" font-family="Outfit" font-size="11" font-weight="600" fill="#4b3718">bas</text>
+      <text x="132" y="85" text-anchor="start" font-family="Outfit" font-size="11" font-weight="600" fill="#4b3718">höjd</text>
+      <line x1="30" y1="130" x2="180" y2="130" stroke="#a88444" stroke-width="2.5"/>
+    </svg>`,
+
   factorial: () => `
     <svg width="210" height="140" viewBox="0 0 210 140" class="max-w-full">
       <rect width="210" height="140" rx="8" fill="#f4ede0" stroke="#d6bf93"/>
-      <text x="105" y="55" text-anchor="middle" font-family="Outfit" font-size="38" font-weight="700" fill="#2a1f0e">81!</text>
-      <text x="105" y="82" text-anchor="middle" font-family="Outfit" font-size="11" font-weight="400" fill="#8b6a34">= 81 × 80 × 79 × … × 2 × 1</text>
+      <text x="105" y="55" text-anchor="middle" font-family="Outfit" font-size="38" font-weight="700" fill="#2a1f0e">41!</text>
+      <text x="105" y="82" text-anchor="middle" font-family="Outfit" font-size="11" font-weight="400" fill="#8b6a34">= 41 × 40 × 39 × … × 2 × 1</text>
       <text x="105" y="110" text-anchor="middle" font-family="Outfit" font-size="9" font-weight="300" fill="#a88444" font-style="italic">ett ofattbart stort tal</text>
     </svg>`
 }
