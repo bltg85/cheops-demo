@@ -5,10 +5,16 @@
  */
 
 import '../css/style.css'
-import { LEVELS, TOTAL_ROOMS } from './rooms.js'
+import { LEVELS, initTestMode } from './rooms.js'
 import { drawPyramid, updatePyramid } from './pyramid.js'
 import { createRoom, createIntro, createVictory } from './ui.js'
 import { state, enterRoom, handleSubmit } from './engine.js'
+
+/* ------------------------------------------------------------------ */
+/* Test mode                                                           */
+/* ------------------------------------------------------------------ */
+const params = new URLSearchParams(location.search)
+if (params.has('test')) initTestMode()
 
 /* ------------------------------------------------------------------ */
 /* Event wiring                                                        */
@@ -59,6 +65,7 @@ document.addEventListener('click', (e) => {
     document.getElementById('victory').dataset.locked = 'true'
     document.getElementById('victory').dataset.active = 'false'
     document.getElementById('intro').scrollIntoView({ behavior: 'smooth', block: 'start' })
+    roomJump.value = ''
     return
   }
 })
@@ -70,6 +77,25 @@ document.addEventListener('keydown', (e) => {
   if (!active) return
   if (document.activeElement && document.activeElement.tagName === 'INPUT') return
   active.querySelector('.answer-form').requestSubmit()
+})
+
+/* ------------------------------------------------------------------ */
+/* Room selector (diskret väljare)                                     */
+/* ------------------------------------------------------------------ */
+const roomJump = document.getElementById('room-jump')
+
+LEVELS.forEach(l => {
+  const opt = document.createElement('option')
+  opt.value = l.id
+  opt.textContent = `${String(l.id).padStart(2, '0')} · ${l.title}`
+  roomJump.appendChild(opt)
+})
+
+roomJump.addEventListener('change', () => {
+  const id = parseInt(roomJump.value, 10)
+  if (!id) return
+  if (!state.startTime) state.startTime = Date.now()
+  enterRoom(id)
 })
 
 /* ------------------------------------------------------------------ */

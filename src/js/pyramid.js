@@ -2,7 +2,7 @@
  * Cheops — Pyramid SVG (sidopanel + mobilvy)
  */
 
-import { TOTAL_ROOMS } from './rooms.js'
+import { LEVELS } from './rooms.js'
 
 /**
  * Ritar pyramid-SVG:n med ett block per rum.
@@ -14,9 +14,9 @@ export function drawPyramid(svg, w, h) {
   const cx = w / 2, halfBase = (w - 20) / 2
   const pyrHeight = baseY - apexY
 
-  for (let i = 1; i <= TOTAL_ROOMS; i++) {
-    const yb = baseY - (i - 1) * (pyrHeight / TOTAL_ROOMS)
-    const yt = baseY - i * (pyrHeight / TOTAL_ROOMS)
+  for (let i = 1; i <= LEVELS.length; i++) {
+    const yb = baseY - (i - 1) * (pyrHeight / LEVELS.length)
+    const yt = baseY - i * (pyrHeight / LEVELS.length)
     const bw = halfBase * (yb - apexY) / pyrHeight
     const tw = halfBase * (yt - apexY) / pyrHeight
     const pts = [
@@ -58,8 +58,8 @@ export function updatePyramid(currentLevel) {
     }
   })
 
-  const completed = Math.max(0, Math.min(TOTAL_ROOMS, currentLevel - 1))
-  const label = `${completed} / ${TOTAL_ROOMS}`
+  const completed = Math.max(0, Math.min(LEVELS.length, currentLevel - 1))
+  const label = `${completed} / ${LEVELS.length}`
   document.getElementById('progress-label').textContent = label
   document.getElementById('progress-label-mobile').textContent = label
 }

@@ -2,7 +2,7 @@
  * Cheops — DOM Rendering (createRoom, createIntro, createVictory)
  */
 
-import { TOTAL_ROOMS } from './rooms.js'
+import { LEVELS } from './rooms.js'
 import { renderGraphic } from './graphics.js'
 
 /**
@@ -20,7 +20,7 @@ export function createRoom(level) {
     <div class="chamber">
       <div class="flex items-start justify-between gap-6 mb-6 float-in" style="--i:0">
         <div class="min-w-0">
-          <div class="text-[10px] uppercase tracking-[0.22em] text-sand-500 font-medium">Kammare ${String(level.id).padStart(2, '0')} av ${TOTAL_ROOMS}</div>
+          <div class="text-[10px] uppercase tracking-[0.22em] text-sand-500 font-medium">Kammare ${String(level.id).padStart(2, '0')} av ${LEVELS.length}</div>
           <h2 class="mt-2 text-3xl md:text-5xl tracking-tighter font-semibold leading-[0.95]">${level.title}</h2>
           <p class="mt-1.5 text-sand-600 text-sm md:text-base">${level.subtitle}</p>
         </div>
@@ -120,7 +120,7 @@ export function createVictory() {
       </div>
 
       <p class="mt-8 text-sand-800 text-base md:text-lg max-w-[46ch] mx-auto">
-        Du klarade Cheops pyramid — ${TOTAL_ROOMS} kammare av sten, siffror och geometri.
+        Du klarade Cheops pyramid — ${LEVELS.length} kammare av sten, siffror och geometri.
       </p>
       <p class="mt-3 text-sand-600 text-sm md:text-base max-w-[46ch] mx-auto">
         Från grundläggande addition hela vägen till trigonometri och fraktaler. Imponerande!
@@ -145,14 +145,14 @@ export function createIntro() {
     <div class="chamber text-center">
       <div class="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.25em] text-sand-600 mb-8">
         <span class="w-10 h-px bg-sand-400"></span>
-        Demo · ${TOTAL_ROOMS} kammare
+        Demo · ${LEVELS.length} kammare
         <span class="w-10 h-px bg-sand-400"></span>
       </div>
       <h1 class="text-5xl md:text-7xl tracking-tighter leading-[0.9] font-semibold">
         Cheops<br><span class="italic font-light text-sand-600">pyramidens gåtor</span>
       </h1>
       <p class="mt-7 text-base md:text-lg text-sand-700 leading-relaxed max-w-[48ch] mx-auto">
-        ${TOTAL_ROOMS} kammare. ${TOTAL_ROOMS} gåtor av sten och siffror. Lös dem — och du klättrar uppåt i pyramiden. En modern tolkning av det gamla 90-talsspelet.
+        ${LEVELS.length} kammare. ${LEVELS.length} gåtor av sten och siffror. Lös dem — och du klättrar uppåt i pyramiden. En modern tolkning av det gamla 90-talsspelet.
       </p>
       <p class="mt-3 text-sm text-sand-600 max-w-[44ch] mx-auto">
         Skriv svaret med tangentbordet eller tryck på knapparna. Enter svarar.
