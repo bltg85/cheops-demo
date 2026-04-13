@@ -52,6 +52,8 @@ export function createRoom(level) {
       ${level.kind === 'puzzle' ? `
         <div class="puzzle-graphic mb-4 flex justify-center float-in" style="--i:3">${renderGraphic(level.puzzle.graphic)}</div>
         <p class="puzzle-prompt text-center text-sand-700 text-base md:text-lg mb-6 max-w-[48ch] mx-auto float-in" style="--i:4">${level.puzzle.q}</p>
+      ` : level.graphic ? `
+        <div class="puzzle-graphic mb-4 flex justify-center float-in" style="--i:3">${renderGraphic(level.graphic)}</div>
       ` : ''}
 
       <div class="question-area border-t border-b border-sand-300 py-10 md:py-14 mb-6 float-in" style="--i:${level.kind === 'puzzle' ? 5 : 3}">

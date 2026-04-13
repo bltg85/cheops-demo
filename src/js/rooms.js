@@ -490,6 +490,7 @@ export const LEVELS = [
     title: 'Triangelns yta',
     subtitle: 'Area = (bas × höjd) ÷ 2',
     kind: 'numeric',
+    graphic: 'triangleArea',
     count: 10,
     maxErrors: 2,
     generate: () => {
@@ -705,7 +706,7 @@ export const LEVELS = [
     maxErrors: 1,
     puzzle: {
       q: 'Denna ormbunke skapas genom att samma mönster upprepas i allt mindre skala. Vad kallas den typen av geometriskt objekt?',
-      a: ['fraktal', 'fractal'],
+      a: ['fraktal', 'fraktaler', 'fractal'],
       answerType: 'text',
       graphic: 'fern',
       hint: 'Tänk på självlikhet — delen liknar helheten.'
@@ -716,17 +717,17 @@ export const LEVELS = [
   /*  SPECIAL — FAKULTET (81!)                                      */
   /* ============================================================== */
 
-  // 41 — Kammare 81: fakultet-pussel
+  // 41 — Kammare 41: fakultet-pussel
   {
     id: 41,
-    title: 'Kammare åttioett',
+    title: 'Kammare fyrtioen',
     subtitle: 'Den stora produkten',
     kind: 'puzzle',
     count: 1,
     maxErrors: 1,
     puzzle: {
-      q: 'Du har nått den legendariska kammare 81. Skriv det matematiska uttrycket för produkten av alla heltal från 81 ner till 1 — alltså 81 × 80 × 79 × … × 2 × 1.',
-      a: ['81!'],
+      q: 'Du har nått den legendariska kammare 41. Skriv det matematiska uttrycket för produkten av alla heltal från 41 ner till 1 — alltså 41 × 40 × 39 × … × 2 × 1.',
+      a: ['41!'],
       answerType: 'text',
       graphic: 'factorial',
       hint: 'Det finns en notation med ett utropstecken …'
