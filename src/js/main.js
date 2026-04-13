@@ -106,6 +106,8 @@ document.getElementById('victory').dataset.locked = 'true'
 for (let i = LEVELS.length - 1; i >= 0; i--) game.appendChild(createRoom(LEVELS[i]))
 game.appendChild(createIntro())
 
+document.getElementById('version-footer').textContent = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : 'dev'
+
 drawPyramid(document.getElementById('pyramid'), 140, 200)
 drawPyramid(document.getElementById('pyramid-mobile'), 140, 80)
 updatePyramid(0)
