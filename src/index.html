@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Cheops — Pyramidens mattegåtor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { sans: ['Outfit','ui-sans-serif','system-ui'] },
+        colors: {
+          sand: {
+            50:  '#faf7f1',
+            100: '#f4ede0',
+            200: '#e8dbc1',
+            300: '#d6bf93',
+            400: '#c19f5f',
+            500: '#a88444',
+            600: '#8b6a34',
+            700: '#6d5128',
+            800: '#4b3718',
+            900: '#2a1f0e'
+          }
+        }
+      }
+    }
+  }
+</script>
+</head>
+<body>
+
+<header class="fixed top-0 left-0 right-0 z-30 pointer-events-none">
+  <div class="max-w-6xl mx-auto px-5 pt-5 flex items-start justify-between gap-4">
+    <div class="pointer-events-auto flex items-center gap-2.5">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2a1f0e" stroke-width="1.5" stroke-linejoin="round">
+        <path d="M12 3 L21.5 20.5 L2.5 20.5 Z"/>
+        <path d="M12 3 L12 20.5" stroke-dasharray="1,2" opacity=".5"/>
+      </svg>
+      <div class="text-sm font-semibold tracking-tight">Cheops</div>
+      <div class="hidden sm:block text-xs text-sand-600 tracking-tight">— pyramidens mattegåtor</div>
+    </div>
+    <div id="hud" class="pointer-events-auto text-right">
+      <div class="text-[10px] uppercase tracking-[0.2em] text-sand-500 font-medium">Nuvarande kammare</div>
+      <div id="room-label" class="text-sm font-semibold tracking-tight">Fot av pyramiden</div>
+    </div>
+  </div>
+</header>
+
+<!-- Desktop pyramid (left rail) -->
+<aside class="desktop-pyramid fixed left-6 top-1/2 -translate-y-1/2 z-20 above-bg">
+  <svg id="pyramid" width="140" height="200" viewBox="0 0 140 200" aria-hidden="true"></svg>
+  <div class="mt-2 text-center text-[10px] uppercase tracking-[0.2em] text-sand-500 font-medium">
+    <span id="progress-label">0 / 10</span>
+  </div>
+</aside>
+
+<!-- Mobile pyramid (top center) -->
+<div class="mobile-pyramid fixed top-[3.2rem] left-0 right-0 z-20 flex flex-col items-center above-bg pointer-events-none">
+  <svg id="pyramid-mobile" width="74" height="40" viewBox="0 0 140 80" aria-hidden="true"></svg>
+  <div class="mt-0.5 text-[9px] uppercase tracking-[0.2em] text-sand-500 font-medium">
+    <span id="progress-label-mobile">0 / 10</span>
+  </div>
+</div>
+
+<main id="game"></main>
+
+<script type="module" src="/js/main.js"></script>
+</body>
+</html>
