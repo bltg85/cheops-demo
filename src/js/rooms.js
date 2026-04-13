@@ -755,5 +755,19 @@ export const LEVELS = [
   }
 ]
 
-/** Totalt antal rum i spelet */
-export const TOTAL_ROOMS = LEVELS.length
+/* ------------------------------------------------------------------ */
+/* Test mode — ~1/4 av rummen                                          */
+/* ------------------------------------------------------------------ */
+
+const TEST_IDS = [1, 3, 7, 11, 17, 21, 24, 30, 32, 39, 42]
+
+/**
+ * Aktivera test-läge: behåll bara ett urval rum och renumrera dem.
+ * Anropas från main.js om `?test` finns i URL:en.
+ */
+export function initTestMode() {
+  const keep = LEVELS.filter(l => TEST_IDS.includes(l.id))
+  keep.forEach((l, i) => { l.id = i + 1 })
+  LEVELS.length = 0
+  keep.forEach(l => LEVELS.push(l))
+}

@@ -3,7 +3,7 @@
  */
 
 import { norm } from './utils.js'
-import { LEVELS, TOTAL_ROOMS } from './rooms.js'
+import { LEVELS } from './rooms.js'
 import { updatePyramid } from './pyramid.js'
 
 /* ------------------------------------------------------------------ */
@@ -100,7 +100,7 @@ function timeoutFailure(section) {
 function showRoomTransition(completedLevel, onDone) {
   const completed = completedLevel.id
   const nextLevel = LEVELS[completed]
-  const rows = TOTAL_ROOMS
+  const rows = LEVELS.length
   let pyramidRows = ''
 
   for (let i = rows; i >= 1; i--) {
@@ -153,7 +153,7 @@ function completeRoom(level) {
   state.currentLevel = level.id + 1
   updatePyramid(state.currentLevel)
 
-  if (level.id >= TOTAL_ROOMS) {
+  if (level.id >= LEVELS.length) {
     document.getElementById('room-label').textContent = 'Toppen nådd'
     showVictory()
   } else {
