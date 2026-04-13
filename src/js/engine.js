@@ -34,7 +34,10 @@ function generateQuestions(level) {
 function renderCurrentQuestion(section, level) {
   const q = state.currentQuestions[state.currentQuestionIndex]
   const qText = section.querySelector('.question-text')
-  qText.textContent = level.kind === 'puzzle' ? '?' : q.q
+  const expr = level.kind === 'puzzle' ? '?' : q.q
+  qText.textContent = (level.kind !== 'puzzle' && !expr.includes('=') && !expr.includes('?'))
+    ? expr + ' ='
+    : expr
   qText.classList.remove('pop')
   void qText.offsetWidth
   qText.classList.add('pop')
