@@ -50,6 +50,9 @@ main, header, aside, .above-bg { position: relative; z-index: 2; }
 .room[data-level][data-active="false"] .chamber {
   filter: grayscale(0.3);
 }
+.room[data-level][data-active="false"] .question-text {
+  visibility: hidden;
+}
 .chamber { max-width: 720px; width: 100%; }
 
 /* Animations */
