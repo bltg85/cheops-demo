@@ -120,10 +120,10 @@ export function createVictory() {
       </div>
 
       <p class="mt-8 text-sand-800 text-base md:text-lg max-w-[46ch] mx-auto">
-        Du klarade <span class="font-semibold">demo-versionen</span> av Cheops pyramid — tio kammare av sten och siffror.
+        Du klarade Cheops pyramid — ${TOTAL_ROOMS} kammare av sten, siffror och geometri.
       </p>
       <p class="mt-3 text-sand-600 text-sm md:text-base max-w-[46ch] mx-auto">
-        Snart kommer samtliga <span class="font-semibold tabular-nums">100</span> banor. Skärpta sinnen, djupare kammare, hårdare gåtor.
+        Från grundläggande addition hela vägen till trigonometri och fraktaler. Imponerande!
       </p>
 
       <button id="restart-btn" class="btn mt-10 inline-flex items-center gap-2 px-7 py-4 rounded-full bg-sand-900 text-sand-50 font-medium hover:bg-sand-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
