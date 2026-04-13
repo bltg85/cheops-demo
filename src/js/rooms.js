@@ -756,18 +756,18 @@ export const LEVELS = [
 ]
 
 /* ------------------------------------------------------------------ */
-/* Test mode — ~1/4 av rummen                                          */
+/* Test mode — färre frågor per rum                                    */
 /* ------------------------------------------------------------------ */
 
-const TEST_IDS = [1, 3, 7, 11, 17, 21, 24, 30, 32, 39, 42]
-
 /**
- * Aktivera test-läge: behåll bara ett urval rum och renumrera dem.
- * Anropas från main.js om `?test` finns i URL:en.
+ * Aktivera test-läge: minskar antal frågor per rum till max 3
+ * (bossrum behåller 1 fråga). Anropas från main.js om `?test` i URL:en.
  */
 export function initTestMode() {
-  const keep = LEVELS.filter(l => TEST_IDS.includes(l.id))
-  keep.forEach((l, i) => { l.id = i + 1 })
-  LEVELS.length = 0
-  keep.forEach(l => LEVELS.push(l))
+  for (const l of LEVELS) {
+    if (l.kind === 'puzzle') continue
+    l.count = Math.min(l.count, 3)
+    l.maxErrors = Math.min(l.maxErrors, 1)
+    if (l.timer) l.timer = Math.min(l.timer, 60)
+  }
 }
